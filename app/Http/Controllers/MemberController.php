@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMemberRequest;
 use App\Models\Member;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -26,10 +27,18 @@ class MemberController extends Controller
     {
         $validated = $request->validated();
 
-        Member::create($validated);
+        try {
+            Member::create($validated);
 
-        return redirect()->route('members.index')
-            ->with('success', "Anggota \"{$validated['nama']}\" berhasil ditambahkan.");
+            return redirect()->route('members.index')
+                ->with('success', "Anggota \"{$validated['nama']}\" berhasil ditambahkan.");
+        } catch (UniqueConstraintViolationException $e) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'nim' => 'NIM atau Email ini sudah terdaftar di database.',
+                ]);
+        }
     }
 
     public function show(string $id)
@@ -59,10 +68,18 @@ class MemberController extends Controller
             'status' => 'required|in:aktif,nonaktif',
         ]);
 
-        $member->update($validated);
+        try {
+            $member->update($validated);
 
-        return redirect()->route('members.index')
-            ->with('success', "Anggota \"{$validated['nama']}\" berhasil diperbarui.");
+            return redirect()->route('members.index')
+                ->with('success', "Anggota \"{$validated['nama']}\" berhasil diperbarui.");
+        } catch (UniqueConstraintViolationException $e) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'nim' => 'NIM atau Email sudah dipakai oleh anggota lain.',
+                ]);
+        }
     }
 
     public function destroy(string $id)
