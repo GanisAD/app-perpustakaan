@@ -11,7 +11,8 @@
             <li><a href="{{ route('loans.index') }}" class="{{ request()->routeIs('loans.*') ? 'active' : '' }}">Peminjaman</a></li>
         </ul>
         <div class="navbar-user">
-            <span>{{ auth()->user()->name }} ({{ ucfirst(auth()->user()->role) }})</span>
+            <span><a href="{{ route('profile.show') }}" style="color: #fff; text-decoration: none;">{{ auth()->user()->name }} ({{ ucfirst(auth()->user()->role) }})</a></span>
+            <a href="{{ route('profile.show') }}" class="btn-logout" style="text-decoration: none;">Profil</a>
             <form action="{{ route('logout') }}" method="POST" class="inline">
                 @csrf
                 <button type="submit" class="btn-logout">Logout</button>
