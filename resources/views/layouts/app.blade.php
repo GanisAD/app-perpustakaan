@@ -64,6 +64,16 @@
             cursor: pointer;
             text-decoration: none;
         }
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .badge-dikembalikan { background: #d1fae5; color: #065f46; } /* Hijau */
+        .badge-dipinjam     { background: #fef3c7; color: #92400e; } /* Kuning/Oranye */
+        .badge-terlambat    { background: #fee2e2; color: #991b1b; } /* Merah */
     </style>
 </head>
 <body>

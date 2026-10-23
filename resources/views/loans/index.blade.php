@@ -40,6 +40,13 @@
                         |
                         <a href="{{ route('loans.edit', $loan['id']) }}">Edit</a>
                         |
+                        @if ($loan['status'] == 'dipinjam')
+                        <form class="inline" action="{{ route('loans.kembalikan', $loan['id']) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" onclick="return confirm('Kembalikan buku ini?')">Kembalikan</button>
+                        </form>
+                        @endif
                         <form class="inline" action="{{ route('loans.destroy', $loan['id']) }}" method="POST">
                             @csrf
                             @method('DELETE')
